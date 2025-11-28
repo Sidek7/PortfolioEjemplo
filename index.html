@@ -2,19 +2,17 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Portfolio · Modelador 3D · Ejemplo RPMI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Minimal - Modelador 3D</title>
   <style>
     :root {
-      --bg: #f6f6f8;
-      --bg-section: #ffffff;
-      --text: #111111;
-      --text-muted: #666666;
-      --accent: #2563eb;
-      --border: #e0e0e5;
-      --radius: 10px;
-      --max-width: 900px;
+      --color-bg: #f4f4f4;
+      --color-light: #ffffff;
+      --color-dark: #222222;
+      --color-muted: #555555;
+      --color-accent: #007bff;
+      --border-radius: 8px;
+      --max-width: 960px;
     }
 
     * {
@@ -25,509 +23,356 @@
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: var(--color-bg);
+      color: var(--color-dark);
       line-height: 1.5;
     }
 
     a {
-      color: inherit;
       text-decoration: none;
+      color: inherit;
     }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .page {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 16px 16px 40px;
-    }
-
-    /* Header */
-
-    header {
-      border-bottom: 1px solid var(--border);
-      background: rgba(246, 246, 248, 0.95);
-      backdrop-filter: blur(10px);
-      position: sticky;
+    /* Navegación fija */
+    nav {
+      position: fixed;
       top: 0;
-      z-index: 10;
-    }
-
-    .nav {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 10px 16px;
+      left: 0;
+      width: 100%;
+      background: var(--color-light);
+      border-bottom: 1px solid #e0e0e0;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      padding: 12px 20px;
     }
 
-    .nav-name {
+    nav .brand {
       font-size: 14px;
-      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      letter-spacing: 0.16em;
+      color: var(--color-muted);
     }
 
-    .nav-links {
+    nav .links {
       display: flex;
       gap: 18px;
       font-size: 14px;
-      color: var(--text-muted);
+      color: var(--color-muted);
     }
 
-    .nav-links a {
-      padding-bottom: 2px;
+    nav .links a {
+      padding-bottom: 3px;
       border-bottom: 1px solid transparent;
-      transition: border-color 0.15s ease, color 0.15s ease;
+      transition: border-color 0.2s ease, color 0.2s ease;
     }
 
-    .nav-links a:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+    nav .links a:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
     }
 
     /* Secciones */
-
     section {
-      background: var(--bg-section);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 18px 18px 22px;
-      margin-top: 18px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px 60px;
     }
 
-    section h2 {
-      font-size: 18px;
-      margin-bottom: 5px;
+    /* Animaciones con IntersectionObserver */
+    .hidden {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
-    .section-note {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
+    .show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero */
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #8a9bed, #d9e4ff);
+      padding: 0 20px;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      letter-spacing: -1px;
+      max-width: 800px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: var(--color-dark);
+      max-width: 600px;
     }
 
     /* About */
+    #about {
+      background: var(--color-light);
+    }
 
-    .about-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
-      gap: 18px;
+    #about .content {
+      max-width: var(--max-width);
+      display: flex;
+      flex-wrap: wrap;
       align-items: center;
+      gap: 30px;
     }
 
-    .about-role {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--accent);
-      margin-bottom: 6px;
+    #about img {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
     }
 
-    .about-layout h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
+    #about div {
+      flex: 1;
+      min-width: 260px;
     }
 
-    .about-text p {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+    #about h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
     }
 
-    .about-avatar {
-      justify-self: end;
-      text-align: center;
-    }
-
-    .avatar-frame {
-      width: 150px;
-      height: 150px;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      margin: 0 auto 8px;
-      background: #ddd;
-    }
-
-    .about-avatar p {
-      font-size: 12px;
-      color: var(--text-muted);
+    #about p {
+      font-size: 1rem;
+      color: var(--color-muted);
+      margin-bottom: 0.8rem;
     }
 
     /* Portfolio */
-
-    .featured-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.7fr);
-      gap: 14px;
-      margin-bottom: 20px;
+    #portfolio {
+      background: var(--color-bg);
     }
 
-    .featured-label {
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+    #portfolio h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
     }
 
-    .featured-media {
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
+    #portfolio p {
+      max-width: 700px;
+      margin-bottom: 1.5rem;
+      color: var(--color-muted);
+      text-align: center;
     }
 
-    .featured-media iframe {
-      display: block;
+    .featured {
       width: 100%;
-      height: 260px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      text-align: center;
+    }
+
+    .featured h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .featured iframe {
+      width: 100%;
+      height: 380px;
       border: none;
+      border-radius: var(--border-radius);
+      margin-bottom: 0.8rem;
     }
 
-    .featured-content h3 {
-      font-size: 16px;
-      margin-bottom: 6px;
+    .featured p {
+      font-size: 0.9rem;
+      color: var(--color-muted);
     }
 
-    .featured-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 10px;
+    .projects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
 
-    .featured-meta {
-      font-size: 12px;
-      color: var(--text-muted);
+    .project {
+      background: var(--color-light);
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    .project img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .project-content {
+      padding: 14px 14px 18px;
+    }
+
+    .project-content h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-content p {
+      font-size: 0.88rem;
+      color: var(--color-muted);
+    }
+
+    /* Contact */
+    #contact {
+      background: var(--color-light);
+    }
+
+    #contact h2 {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    #contact p {
+      color: var(--color-muted);
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+
+    form {
+      max-width: 600px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
       gap: 14px;
     }
 
-    .project-card {
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 10px 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .project-thumb {
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: #e5e5ea;
-    }
-
-    .project-type {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-    }
-
-    .project-card h3 {
-      font-size: 15px;
-    }
-
-    .project-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    /* Contacto */
-
-    .contact-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.5fr);
-      gap: 18px;
-      align-items: flex-start;
-    }
-
-    .contact-text {
-      font-size: 14px;
-      color: var(--text-muted);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .contact-details span {
-      display: block;
-    }
-
-    .contact-details strong {
-      color: var(--text);
-    }
-
-    .contact-details a {
-      color: var(--accent);
-    }
-
-    form.contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 13px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .field label {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .field input,
-    .field textarea {
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #f9fafb;
-      padding: 7px 10px;
-      font: inherit;
-      color: var(--text);
-      outline: none;
-    }
-
-    .field textarea {
-      border-radius: 8px;
-      min-height: 80px;
+    form input,
+    form textarea {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #cccccc;
+      border-radius: var(--border-radius);
+      font-family: inherit;
       resize: vertical;
     }
 
-    .field input:focus,
-    .field textarea:focus {
-      border-color: var(--accent);
-    }
-
-    .btn-submit {
-      border-radius: 999px;
-      border: 1px solid var(--accent);
-      background: transparent;
-      padding: 7px 14px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--accent);
-      align-self: flex-start;
-      cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease;
-    }
-
-    .btn-submit:hover {
-      background: var(--accent);
+    form button {
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      background: var(--color-accent);
       color: #ffffff;
+      cursor: pointer;
+      transition: background 0.2s ease;
     }
 
-    footer {
-      margin-top: 10px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: right;
+    form button:hover {
+      background: #0056b3;
     }
 
-    /* Responsive */
-
-    @media (max-width: 780px) {
-      .about-layout,
-      .featured-grid,
-      .contact-layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .about-avatar {
-        justify-self: start;
-      }
-    }
-
+    /* Responsive ajuste navegación */
     @media (max-width: 640px) {
-      .nav-links {
+      nav .links {
         display: none;
       }
-
-      section {
-        border-radius: 8px;
+      nav .brand {
+        font-size: 12px;
       }
     }
+
   </style>
 </head>
 <body>
-  <header>
-    <div class="nav">
-      <div class="nav-name">Portfolio · Ejemplo RPMI</div>
-      <nav class="nav-links">
-        <a href="#about">About</a>
-        <a href="#portfolio">Proyectos</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
+  <nav>
+    <div class="brand">Portfolio 3D Ejemplo</div>
+    <div class="links">
+      <a href="#about">Sobre mí</a>
+      <a href="#portfolio">Proyectos</a>
+      <a href="#contact">Contacto</a>
     </div>
+  </nav>
+
+  <header id="hero">
+    <h1>Construyo mundos digitales en 3D</h1>
+    <p>Modelador y diseñador 3D en formación, apasionado por crear entornos y objetos que cuenten historias.</p>
   </header>
 
-  <div class="page">
-    <!-- About / Sobre mí -->
-    <section id="about">
-      <div class="section-note">About / Sobre mí</div>
-      <div class="about-layout">
-        <div class="about-text">
-          <div class="about-role">Modelado 3D · Entornos y props</div>
-          <h1>Nombre Apellidos · Portfolio</h1>
-          <p>
-            Soy estudiante del ciclo de Animación 3D, Juegos y Entornos Interactivos.
-            Me especializo en modelado de entornos y props para videojuegos, con interés
-            en escenas limpias, lectura clara y materiales reconocibles.
-          </p>
-          <p>
-            Este portfolio recoge algunos de los proyectos desarrollados durante el curso.
-            La estructura está pensada para poder incorporar nuevos trabajos en el futuro.
-          </p>
-        </div>
-
-        <aside class="about-avatar">
-          <div class="avatar-frame">
-            <img
-              src="https://via.placeholder.com/300x300.png?text=Avatar+3D"
-              alt="Avatar o retrato del modelador 3D"
-            />
-          </div>
-          <p>Puedes usar una foto real, un avatar o una ilustración. Esta imagen es un placeholder.</p>
-        </aside>
+  <section id="about" class="hidden">
+    <div class="content">
+      <img src="https://placehold.co/600x400?text=Hello+World" alt="Avatar 3D" />
+      <div>
+        <h2>Sobre mí</h2>
+        <p>Hola, soy un modelador 3D en formación con ganas de explorar mundos digitales. Mi enfoque se centra en la creación de entornos y props para videojuegos y experiencias interactivas.</p>
+        <p>Me encanta experimentar con formas, texturas y luces para dar vida a mis ideas. Esta plantilla de portfolio crecerá contigo a medida que avances en tu aprendizaje.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Portfolio -->
-    <section id="portfolio">
-      <h2>Proyectos seleccionados</h2>
-      <p class="section-note">
-        Galería con un proyecto destacado y dos proyectos adicionales. El destacado incluye
-        una vista 3D integrada mediante iframe.
-      </p>
-
-      <!-- Proyecto destacado -->
-      <div class="featured-grid">
-        <div class="featured-media">
-          <!-- Sustituye el src por el iframe real de Sketchfab u otro visor 3D -->
-       <div class="sketchfab-embed-wrapper"> <iframe title="Cyber dragon chair" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/654a9f87039341ada4a875b64083669f/embed"> </iframe> <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> <a href="https://sketchfab.com/3d-models/cyber-dragon-chair-654a9f87039341ada4a875b64083669f?utm_medium=embed&utm_campaign=share-popup&utm_content=654a9f87039341ada4a875b64083669f" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Cyber dragon chair </a> by <a href="https://sketchfab.com/3DWorkbench?utm_medium=embed&utm_campaign=share-popup&utm_content=654a9f87039341ada4a875b64083669f" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> 3DWorkbench </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=654a9f87039341ada4a875b64083669f" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a></p></div>
-        </div>
-
-        <div class="featured-content">
-          <div class="featured-label">Proyecto destacado</div>
-          <h3>Estación modular “Orilla fría”</h3>
-          <p class="featured-desc">
-            Escenario modular invernal para videojuego de exploración. El proyecto se centra
-            en el uso de módulos reutilizables, trimsheets sencillos y una iluminación básica
-            que ayude a guiar al jugador.
-          </p>
-          <p class="featured-meta">
-            Modelado en Blender · Texturizado base en Substance Painter · Pensado para motor
-            en tiempo real.
-          </p>
+  <section id="portfolio" class="hidden">
+    <h2>Proyectos</h2>
+    <p>Una selección de trabajos recientes. Incluyo un proyecto destacado con un modelo 3D interactivo.</p>
+    <div class="featured">
+      <h3>Proyecto destacado: Escenario Sci‑Fi</h3>
+      <div class="sketchfab-embed-wrapper"> <iframe title="Cyber dragon chair" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/654a9f87039341ada4a875b64083669f/embed"> </iframe> <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> <a href="https://sketchfab.com/3d-models/cyber-dragon-chair-654a9f87039341ada4a875b64083669f?utm_medium=embed&utm_campaign=share-popup&utm_content=654a9f87039341ada4a875b64083669f" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Cyber dragon chair </a> by <a href="https://sketchfab.com/3DWorkbench?utm_medium=embed&utm_campaign=share-popup&utm_content=654a9f87039341ada4a875b64083669f" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> 3DWorkbench </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=654a9f87039341ada4a875b64083669f" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a></p></div>
+      <p>Escenario futurista para un juego de exploración espacial. Creé módulos repetibles y trabajé la iluminación para guiar al jugador.</p>
+    </div>
+    <div class="projects">
+      <div class="project">
+        <img src="https://placehold.co/600x400?text=Hello+World" alt="Prop 3D" />
+        <div class="project-content">
+          <h3>Terminal de mantenimiento</h3>
+          <p>Prop de terminal para el interior de una nave. Me centré en la silueta y los materiales metálicos. Modelado en Blender y texturizado en Substance Painter.</p>
         </div>
       </div>
-
-      <!-- Dos proyectos básicos -->
-      <div class="projects-grid">
-        <article class="project-card">
-          <div class="project-thumb">
-            <img
-              src="https://placehold.co/600x400?text=Hello+World"
-              alt="Render de un prop 3D"
-            />
-          </div>
-          <div>
-            <div class="project-type">Prop 3D</div>
-            <h3>Terminal de mantenimiento orbital</h3>
-            <p class="project-desc">
-              Prop de terminal para interior de nave. Trabajo centrado en la silueta, los
-              volúmenes principales y el uso de emisivos para marcar zonas interactuables.
-            </p>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-thumb">
-            <img
-              src="https://placehold.co/600x400?text=Hello+World"
-              alt="Escena de entorno low poly"
-            />
-          </div>
-          <div>
-            <div class="project-type">Entorno low poly</div>
-            <h3>Mirador en el valle</h3>
-            <p class="project-desc">
-              Entorno sencillo de estilo low poly. El objetivo principal fue practicar
-              composición, color y profundidad atmosférica usando pocos elementos.
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Contacto -->
-    <section id="contacto">
-      <h2>Contacto</h2>
-      <p class="section-note">
-        Este formulario puede conectarse a un servicio externo (Formspree, por ejemplo) para
-        enviar correos reales. Aquí aparece como estructura base.
-      </p>
-
-      <div class="contact-layout">
-        <div class="contact-text">
-          <p>
-            Si quieres comentar algún proyecto, proponer una colaboración o dejar feedback
-            sobre el portfolio, puedes utilizar este formulario o escribir directamente al
-            correo de contacto.
-          </p>
-          <div class="contact-details">
-            <span><strong>Correo:</strong> nombre.apellidos@ejemplo.com</span>
-            <span><strong>Ubicación:</strong> Granada, España</span>
-            <span>
-              <strong>Redes (ejemplo):</strong>
-              <a href="https://www.artstation.com" target="_blank">ArtStation</a> ·
-              <a href="https://www.instagram.com" target="_blank">Instagram</a>
-            </span>
-          </div>
+      <div class="project">
+        <img src="https://placehold.co/600x400?text=Hello+World" alt="Entorno Low Poly" />
+        <div class="project-content">
+          <h3>Mirador en el valle</h3>
+          <p>Escena low poly donde experimento con composición y colores para crear un ambiente relajante.</p>
         </div>
-
-        <!-- Recuerda cambiar "tu-endpoint" por el real del servicio de formularios -->
-        <form
-          class="contact-form"
-          action="https://formspree.io/f/tu-endpoint"
-          method="POST"
-        >
-          <div class="field">
-            <label for="nombre">Nombre</label>
-            <input id="nombre" name="nombre" type="text" required />
-          </div>
-          <div class="field">
-            <label for="email">Correo electrónico</label>
-            <input id="email" name="email" type="email" required />
-          </div>
-          <div class="field">
-            <label for="mensaje">Mensaje</label>
-            <textarea id="mensaje" name="mensaje" required></textarea>
-          </div>
-          <button type="submit" class="btn-submit">Enviar mensaje</button>
-        </form>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      Portfolio de ejemplo para la asignatura RPMI · Estructura mínima: About, 2 proyectos + 1 destacado, Contacto.
-    </footer>
-  </div>
+  <section id="contact" class="hidden">
+    <h2>Contacto</h2>
+    <p>¿Te gustaría comentar un proyecto o proponer una colaboración? Envíame un mensaje.</p>
+    <form action="#" method="post">
+      <input type="text" name="nombre" placeholder="Tu nombre" required />
+      <input type="email" name="email" placeholder="Tu correo electrónico" required />
+      <textarea name="mensaje" placeholder="Mensaje" rows="5" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <script>
+    // Intersection Observer para animar las secciones al entrar en pantalla
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.hidden').forEach(section => {
+      observer.observe(section);
+    });
+  </script>
 </body>
 </html>
